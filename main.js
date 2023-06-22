@@ -21,6 +21,8 @@ camera.position.set(0, 0, 500);
 renderer = new THREE.WebGLRenderer({alpha: true});
 // レンダラーのサイズを調整
 renderer.setSize(window.innerWidth, window.innerHeight);
+// 解像度を調整
+renderer.setPixelRatio(window.devicePixelRatio);
 // DOM追加
 document.body.appendChild(renderer.domElement);
 
