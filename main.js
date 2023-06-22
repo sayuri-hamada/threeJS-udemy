@@ -24,11 +24,14 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 // DOM追加
 document.body.appendChild(renderer.domElement);
 
+// テクスチャーを追加してみよう
+let textures = new THREE.TextureLoader().load('/textures/earth.jpg');
+
 // ジオメトリを作成
 let ballGeometry = new THREE.SphereGeometry(100, 64, 32) // 半径、ポリゴンの数（大きくするとより球体に近づく）
 
 // マテリアルを作成
-let ballMaterial = new THREE.MeshPhysicalMaterial();
+let ballMaterial = new THREE.MeshPhysicalMaterial({map: textures});
 
 // メッシュ化してみよう
 let ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
