@@ -2,7 +2,7 @@ import './style.css'
 
 import * as THREE from 'three';
 
-let scene, camera, renderer;
+let scene, camera, renderer, pointLight;
 
 // シーンを追加
 scene = new THREE.Scene();
@@ -38,6 +38,11 @@ scene.add(ballMesh);
 let directionalLight = new THREE.DirectionalLight(0xffffff, 2);
 directionalLight.position.set(1, 1, 1);
 scene.add(directionalLight);
+
+// ポイント光源を追加してみよう
+pointLight = new THREE.PointLight(0xffffff, 1);
+pointLight.position.set(-200, -200, -200);
+scene.add(pointLight);
 
 // レンダリングしてみよう
 renderer.render(scene, camera);
