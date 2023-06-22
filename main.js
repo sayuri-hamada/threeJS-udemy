@@ -5,57 +5,65 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let scene, camera, renderer, pointLight, controls;
 
-// シーンを追加
-scene = new THREE.Scene();
+window.addEventListener('load', init());
 
-// カメラを追加
-camera = new THREE.PerspectiveCamera(
-  50, //視野角
-  window.innerWidth / window.innerHeight, //アスペクト比
-  0.1, //開始距離
-  1000 //終了距離
-);
-camera.position.set(0, 0, 500);
 
-// レンダラーを追加
-renderer = new THREE.WebGLRenderer({alpha: true});
-// レンダラーのサイズを調整
-renderer.setSize(window.innerWidth, window.innerHeight);
-// 解像度を調整
-renderer.setPixelRatio(window.devicePixelRatio);
-// DOM追加
-document.body.appendChild(renderer.domElement);
+function init() {
+  // シーンを追加
+  scene = new THREE.Scene();
 
-// テクスチャーを追加してみよう
-let textures = new THREE.TextureLoader().load('/textures/earth.jpg');
+  // カメラを追加
+  camera = new THREE.PerspectiveCamera(
+    50, //視野角
+    window.innerWidth / window.innerHeight, //アスペクト比
+    0.1, //開始距離
+    1000 //終了距離
+  );
+  camera.position.set(0, 0, 500);
 
-// ジオメトリを作成
-let ballGeometry = new THREE.SphereGeometry(100, 64, 32) // 半径、ポリゴンの数（大きくするとより球体に近づく）
+  // レンダラーを追加
+  renderer = new THREE.WebGLRenderer({alpha: true});
+  // レンダラーのサイズを調整
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  // 解像度を調整
+  renderer.setPixelRatio(window.devicePixelRatio);
+  // DOM追加
+  document.body.appendChild(renderer.domElement);
 
-// マテリアルを作成
-let ballMaterial = new THREE.MeshPhysicalMaterial({map: textures});
+  // テクスチャーを追加してみよう
+  let textures = new THREE.TextureLoader().load('/textures/earth.jpg');
 
-// メッシュ化してみよう
-let ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
+  // ジオメトリを作成
+  let ballGeometry = new THREE.SphereGeometry(100, 64, 32) // 半径、ポリゴンの数（大きくするとより球体に近づく）
 
-scene.add(ballMesh);
+  // マテリアルを作成
+  let ballMaterial = new THREE.MeshPhysicalMaterial({map: textures});
 
-// 平行光源を追加してみよう
-let directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-directionalLight.position.set(1, 1, 1);
-scene.add(directionalLight);
+  // メッシュ化してみよう
+  let ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
 
-// ポイント光源を追加してみよう
-pointLight = new THREE.PointLight(0xffffff, 1);
-pointLight.position.set(-200, -200, -200);
-scene.add(pointLight);
+  scene.add(ballMesh);
 
-// ポイント光源がどこにあるのかを特定する
-let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
-scene.add(pointLightHelper);
+  // 平行光源を追加してみよう
+  let directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+  directionalLight.position.set(1, 1, 1);
+  scene.add(directionalLight);
 
-// マウス操作ができるようにする
-controls = new OrbitControls(camera, renderer.domElement);
+  // ポイント光源を追加してみよう
+  pointLight = new THREE.PointLight(0xffffff, 1);
+  pointLight.position.set(-200, -200, -200);
+  scene.add(pointLight);
+
+  // ポイント光源がどこにあるのかを特定する
+  let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
+  scene.add(pointLightHelper);
+
+  // マウス操作ができるようにする
+  controls = new OrbitControls(camera, renderer.domElement);
+
+  animate();
+}
+
 
 
 // let rot = 0;
@@ -80,6 +88,6 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-animate();
+
 
 
