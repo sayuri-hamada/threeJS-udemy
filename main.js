@@ -5,7 +5,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let scene, camera, renderer, pointLight, controls;
 
-window.addEventListener('load', init());
+window.addEventListener('load', init);
 
 
 function init() {
@@ -61,9 +61,19 @@ function init() {
   // マウス操作ができるようにする
   controls = new OrbitControls(camera, renderer.domElement);
 
+  window.addEventListener('resize', onWindowRisize);
+
   animate();
 }
 
+// ブラウザのリサイズに対応させよう
+function onWindowRisize() {
+  // レンダラーのサイズを随時更新
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  // カメラのアスペクト比を正す
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+}
 
 
 // let rot = 0;
