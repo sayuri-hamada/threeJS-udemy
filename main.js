@@ -1,8 +1,9 @@
 import './style.css'
 
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let scene, camera, renderer, pointLight;
+let scene, camera, renderer, pointLight, controls;
 
 // シーンを追加
 scene = new THREE.Scene();
@@ -48,7 +49,11 @@ scene.add(pointLight);
 let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
 scene.add(pointLightHelper);
 
-let rot = 0;
+// マウス操作ができるようにする
+controls = new OrbitControls(camera, renderer.domElement);
+
+
+// let rot = 0;
 
 function animate() {
   // ポイント光源を球の周りを巡回させよう
@@ -59,11 +64,11 @@ function animate() {
   );
 
   // カメラを回転させてみよう
-  rot += 0.5;
-  let radian = rot * (Math.PI / 180); //ラジアンに変換
-  camera.position.x = Math.sin(radian) * 500;
-  camera.position.z = Math.cos(radian) * 500;
-  camera.lookAt(ballMesh.position);
+  // rot += 0.5;
+  // let radian = rot * (Math.PI / 180); //ラジアンに変換
+  // camera.position.x = Math.sin(radian) * 500;
+  // camera.position.z = Math.cos(radian) * 500;
+  // camera.lookAt(ballMesh.position);
 
   // レンダリングしてみよう
   renderer.render(scene, camera);
