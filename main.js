@@ -48,5 +48,20 @@ scene.add(pointLight);
 let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
 scene.add(pointLightHelper);
 
-// レンダリングしてみよう
-renderer.render(scene, camera);
+
+function animate() {
+  // ポイント光源を球の周りを巡回させよう
+  pointLight.position.set(
+    200 * Math.sin(Date.now() / 500),
+    200 * Math.sin(Date.now() / 1000),
+    200 * Math.cos(Date.now() / 500),
+  );
+  // レンダリングしてみよう
+  renderer.render(scene, camera);
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+
