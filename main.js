@@ -26,5 +26,11 @@ renderer.render(scene, camera);
 
 // ジオメトリを作成
 let ballGeometry = new THREE.SphereGeometry(100, 64, 32) // 半径、ポリゴンの数（大きくするとより球体に近づく）
+
 // マテリアルを作成
 let ballMaterial = new THREE.MeshPhysicalMaterial();
+
+// メッシュ化してみよう
+let ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
+
+scene.add(ballMesh);
