@@ -48,6 +48,7 @@ scene.add(pointLight);
 let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
 scene.add(pointLightHelper);
 
+let rot = 0;
 
 function animate() {
   // ポイント光源を球の周りを巡回させよう
@@ -56,9 +57,16 @@ function animate() {
     200 * Math.sin(Date.now() / 1000),
     200 * Math.cos(Date.now() / 500),
   );
+
+  // カメラを回転させてみよう
+  rot += 0.5;
+  let radian = rot * (Math.PI / 180); //ラジアンに変換
+  camera.position.x = Math.sin(radian) * 500;
+  camera.position.z = Math.cos(radian) * 500;
+  camera.lookAt(ballMesh.position);
+
   // レンダリングしてみよう
   renderer.render(scene, camera);
-
   requestAnimationFrame(animate);
 }
 
