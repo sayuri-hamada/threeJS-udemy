@@ -25,19 +25,24 @@ document.body.appendChild(renderer.domElement);
  **/
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 16);
+const planeGeometry = new THREE.PlaneGeometry(10,10,1);
 
 
 //マテリアル
 const material = new THREE.MeshNormalMaterial({
-  wireframe: true,
+  // wireframe: true,
 });
 
 // メッシュ化
 const box = new THREE.Mesh(boxGeometry, material);
 const sphere = new THREE.Mesh(sphereGeometry, material);
-scene.add(box, sphere);
+const plane = new THREE.Mesh(planeGeometry, material); //地面をひくときによく使う
+scene.add(box, sphere, plane);
 
 sphere.position.x = 1.5;
+plane.rotation.x = -Math.PI * 0.5;
+plane.position.y = -0.5;
+
 
 //ライト
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
