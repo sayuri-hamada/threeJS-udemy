@@ -32,20 +32,24 @@ scene.add(camera);
 
 //ライト
 // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-const ambientLight = new THREE.AmbientLight(); //全体を均一に照らす　光のバウンシングを表現する
-ambientLight.color = new THREE.Color(0xffffff);
-ambientLight.intensity = 0.5;
-scene.add(ambientLight);
-gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
+// const ambientLight = new THREE.AmbientLight(); //全体を均一に照らす　光のバウンシングを表現する
+// ambientLight.color = new THREE.Color(0xffffff);
+// ambientLight.intensity = 0.5;
+// scene.add(ambientLight);
+// gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
 
-const directionalLight = new THREE.DirectionalLight(0x0fffff, 1);
-directionalLight.position.set(1, 0.55, 1);
-scene.add(directionalLight);
-gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001);
-gui.add(directionalLight.position, 'y').min(-5).max(5).step(0.001);
-gui.add(directionalLight.position, 'z').min(-5).max(5).step(0.001);
-const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 1);
-scene.add(directionalLightHelper);
+// const directionalLight = new THREE.DirectionalLight(0x0fffff, 1);
+// directionalLight.position.set(1, 0.55, 1);
+// scene.add(directionalLight);
+// gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001);
+// gui.add(directionalLight.position, 'y').min(-5).max(5).step(0.001);
+// gui.add(directionalLight.position, 'z').min(-5).max(5).step(0.001);
+// const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 1);
+// scene.add(directionalLightHelper);
+
+const hemiSphreLight = new THREE.HemisphereLight(0x0ffff0, 0xffff00, 1); //上下の色を決めてグラデーションのような光をあtることができる　影を追加することはできない
+scene.add(hemiSphreLight);
+hemiSphreLight.position.set(1, 0.55, 0);
 
 
 //マテリアル
