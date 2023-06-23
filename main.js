@@ -57,8 +57,20 @@ function init() {
 
   animate();
 }
+const clock = new THREE.Clock();
 
 function animate() {
+  const elapsedTime = clock.getElapsedTime();
+
+  // オブジェクトを回転させる
+  sphere.rotation.x = elapsedTime;
+  plane.rotation.x = elapsedTime;
+  octahedron.rotation.x = elapsedTime;
+
+  sphere.rotation.y = elapsedTime;
+  plane.rotation.y = elapsedTime;
+  octahedron.rotation.y = elapsedTime;
+
   //レンダリング
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
