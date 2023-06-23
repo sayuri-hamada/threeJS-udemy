@@ -3,101 +3,99 @@ import './style.css'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let scene, camera, renderer, pointLight, controls;
-
-window.addEventListener('load', init);
+import GUI from 'lil-gui';
 
 
-function init() {
-  // シーンを追加
-  scene = new THREE.Scene();
+//UIデバッグ
+const gui = new GUI();
 
-  // カメラを追加
-  camera = new THREE.PerspectiveCamera(
-    50, //視野角
-    window.innerWidth / window.innerHeight, //アスペクト比
-    0.1, //開始距離
-    1000 //終了距離
-  );
-  camera.position.set(0, 0, 500);
+//サイズ
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
 
-  // レンダラーを追加
-  renderer = new THREE.WebGLRenderer({alpha: true});
-  // レンダラーのサイズを調整
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  // 解像度を調整
-  renderer.setPixelRatio(window.devicePixelRatio);
-  // DOM追加
-  document.body.appendChild(renderer.domElement);
+//シーン
+const scene = new THREE.Scene();
 
-  // テクスチャーを追加してみよう
-  let textures = new THREE.TextureLoader().load('/textures/earth.jpg');
+//カメラ
+const camera = new THREE.PerspectiveCamera(
+  75,
+  sizes.width / sizes.height,
+  0.1,
+  1000
+);
+camera.position.x = -2;
+camera.position.y = 1;
+camera.position.z = 4;
+scene.add(camera);
 
-  // ジオメトリを作成
-  let ballGeometry = new THREE.SphereGeometry(100, 64, 32) // 半径、ポリゴンの数（大きくするとより球体に近づく）
+//ライト
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
 
-  // マテリアルを作成
-  let ballMaterial = new THREE.MeshPhysicalMaterial({map: textures});
+//マテリアル
+const material = new THREE.MeshStandardMaterial();
+material.roughness = 0.3;
 
-  // メッシュ化してみよう
-  let ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
+//オブジェクト
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
+sphere.position.x = -1.5;
 
-  scene.add(ballMesh);
+const cube = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.75, 0.75), material);
 
-  // 平行光源を追加してみよう
-  let directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-  directionalLight.position.set(1, 1, 1);
-  scene.add(directionalLight);
+const torus = new THREE.Mesh(
+  new THREE.TorusGeometry(0.3, 0.2, 32, 64),
+  material
+);
+torus.position.x = 1.5;
 
-  // ポイント光源を追加してみよう
-  pointLight = new THREE.PointLight(0xffffff, 1);
-  pointLight.position.set(-200, -200, -200);
-  scene.add(pointLight);
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
+plane.rotation.x = -Math.PI * 0.5;
+plane.position.y = -0.65;
 
-  // ポイント光源がどこにあるのかを特定する
-  let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
-  scene.add(pointLightHelper);
+scene.add(sphere, cube, torus, plane);
 
-  // マウス操作ができるようにする
-  controls = new OrbitControls(camera, renderer.domElement);
+window.addEventListener("resize", () => {
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
 
-  window.addEventListener('resize', onWindowRisize);
-
-  animate();
-}
-
-// ブラウザのリサイズに対応させよう
-function onWindowRisize() {
-  // レンダラーのサイズを随時更新
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  // カメラのアスペクト比を正す
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = sizes.width / sizes.height;
   camera.updateProjectionMatrix();
-}
 
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
 
-// let rot = 0;
+//レンダラー
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
 
-function animate() {
-  // ポイント光源を球の周りを巡回させよう
-  pointLight.position.set(
-    200 * Math.sin(Date.now() / 500),
-    200 * Math.sin(Date.now() / 1000),
-    200 * Math.cos(Date.now() / 500),
-  );
+//コントロール
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
-  // カメラを回転させてみよう
-  // rot += 0.5;
-  // let radian = rot * (Math.PI / 180); //ラジアンに変換
-  // camera.position.x = Math.sin(radian) * 500;
-  // camera.position.z = Math.cos(radian) * 500;
-  // camera.lookAt(ballMesh.position);
+const clock = new THREE.Clock();
 
-  // レンダリングしてみよう
+const animate = () => {
+  const elapsedTime = clock.getElapsedTime();
+
+  // Update objects
+  sphere.rotation.y = 0.1 * elapsedTime;
+  cube.rotation.y = 0.1 * elapsedTime;
+  torus.rotation.y = 0.1 * elapsedTime;
+
+  sphere.rotation.x = 0.15 * elapsedTime;
+  cube.rotation.x = 0.15 * elapsedTime;
+  torus.rotation.x = 0.15 * elapsedTime;
+
+  controls.update();
+
   renderer.render(scene, camera);
-  requestAnimationFrame(animate);
-}
 
+  window.requestAnimationFrame(animate);
+};
 
-
-
+animate();
