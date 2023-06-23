@@ -40,16 +40,19 @@ function init() {
   const texture = new THREE.TextureLoader().load('/textures/brick.jpg')
 
   // マテリアル
-  const material = new THREE.MeshBasicMaterial({
-    // color: 0x0000ff
-    map: texture
-  });
+  // const material = new THREE.MeshBasicMaterial({
+  //   // color: 0x0000ff
+  //   map: texture
+  // });
 
-  material.color = new THREE.Color('red');
+  // material.color = new THREE.Color('red');
   // material.wireframe = true;
-  material.side = THREE.DoubleSide; //プレーンジオメトリの裏側を見ることが可能
-  material.opacity = 0.5;
-  material.transparent = true;
+  // material.side = THREE.DoubleSide; //プレーンジオメトリの裏側を見ることが可能
+  // material.opacity = 0.5;
+  // material.transparent = true;
+
+  const material = new THREE.MeshNormalMaterial();
+  material.flatShading = true;
 
   // メッシュ化
   sphere = new THREE.Mesh(sphereGeometry, material);
