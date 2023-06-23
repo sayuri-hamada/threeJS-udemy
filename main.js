@@ -31,8 +31,14 @@ camera.position.z = 4;
 scene.add(camera);
 
 //ライト
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+// const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+const ambientLight = new THREE.AmbientLight(); //全体を均一に照らす　光のバウンシングを表現する
+ambientLight.color = new THREE.Color(0xffffff);
+ambientLight.intensity = 0.5;
 scene.add(ambientLight);
+
+gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
+
 
 //マテリアル
 const material = new THREE.MeshStandardMaterial();
