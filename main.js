@@ -55,6 +55,12 @@ const pointLight = new THREE.PointLight(0xff4000, 0.7, 10, 2);
 pointLight.position.set(-1, 0, 1.5);
 scene.add(pointLight);
 
+// RectAreaLightはMeshStandardMaterialかMeshFisicalMaterialの場合のみ使用可能
+const rectAreaLight = new THREE.RectAreaLight(0x4eff00, 1, 3, 4);
+rectAreaLight.position.set(1.5, 0, 1.5);
+rectAreaLight.lookAt(0, 0, 0);
+scene.add(rectAreaLight);
+
 //マテリアル
 const material = new THREE.MeshStandardMaterial();
 material.roughness = 0.3;
