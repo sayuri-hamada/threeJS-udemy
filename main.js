@@ -36,8 +36,20 @@ function init() {
   const planeGeometry = new THREE.PlaneGeometry(1, 1);
   const octahedronGeomtry = new THREE.OctahedronGeometry(0.5);
 
+  // テクスチャ
+  const texture = new THREE.TextureLoader().load('/textures/brick.jpg')
+
   // マテリアル
-  const material = new THREE.MeshBasicMaterial();
+  const material = new THREE.MeshBasicMaterial({
+    // color: 0x0000ff
+    map: texture
+  });
+
+  material.color = new THREE.Color('red');
+  // material.wireframe = true;
+  material.side = THREE.DoubleSide; //プレーンジオメトリの裏側を見ることが可能
+  material.opacity = 0.5;
+  material.transparent = true;
 
   // メッシュ化
   sphere = new THREE.Mesh(sphereGeometry, material);
