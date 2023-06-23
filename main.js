@@ -54,18 +54,24 @@ function init() {
   // const material = new THREE.MeshNormalMaterial();
   // material.flatShading = true;
 
-  const material = new THREE.MeshStandardMaterial();
+  // // const material = new THREE.MeshStandardMaterial();
+  // material.side = THREE.DoubleSide; //プレーンジオメトリの裏側を見ることが可能
+  // // material.color.set('#049ef4');
+  // material.roughness = 0.34; // マテリアルの荒さ = 小さくなればなるほど光沢が見えるようになる
+  // material.metalness = 0.64; //金属製を持たせる
+  // material.map = texture;
+
+  const material = new THREE.MeshPhongMaterial();
   material.side = THREE.DoubleSide; //プレーンジオメトリの裏側を見ることが可能
-  // material.color.set('#049ef4');
-  material.roughness = 0.34; // マテリアルの荒さ = 小さくなればなるほど光沢が見えるようになる
-  material.metalness = 0.64; //金属製を持たせる
-  material.map = texture;
+  material.shininess = 100; //光の反射率
+  material.specular = new THREE.Color("red"); //反射の光の色を変える
+
 
   // 明かりを追加してみよう
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
   scene.add(ambientLight);
 
-  const pointLight = new THREE.PointLight(0xffffff, 1);
+  const pointLight = new THREE.PointLight(0xffffff, 0.3);
   pointLight.position.set(1, 2, 3);
   scene.add(pointLight);
 
