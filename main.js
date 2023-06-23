@@ -36,8 +36,16 @@ const ambientLight = new THREE.AmbientLight(); //全体を均一に照らす　�
 ambientLight.color = new THREE.Color(0xffffff);
 ambientLight.intensity = 0.5;
 scene.add(ambientLight);
-
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
+
+const directionalLight = new THREE.DirectionalLight(0x0fffff, 1);
+directionalLight.position.set(1, 0.55, 1);
+scene.add(directionalLight);
+gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001);
+gui.add(directionalLight.position, 'y').min(-5).max(5).step(0.001);
+gui.add(directionalLight.position, 'z').min(-5).max(5).step(0.001);
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 1);
+scene.add(directionalLightHelper);
 
 
 //マテリアル
