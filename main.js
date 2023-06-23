@@ -2,102 +2,72 @@ import './style.css'
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-let scene, camera, renderer, pointLight, controls;
-
-window.addEventListener('load', init);
+import GUI from 'lil-gui';
 
 
-function init() {
-  // シーンを追加
-  scene = new THREE.Scene();
+/**
+ * UIデバッグ
+ */
 
-  // カメラを追加
-  camera = new THREE.PerspectiveCamera(
-    50, //視野角
-    window.innerWidth / window.innerHeight, //アスペクト比
-    0.1, //開始距離
-    1000 //終了距離
-  );
-  camera.position.set(0, 0, 500);
+const gui = new GUI();
 
-  // レンダラーを追加
-  renderer = new THREE.WebGLRenderer({alpha: true});
-  // レンダラーのサイズを調整
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  // 解像度を調整
-  renderer.setPixelRatio(window.devicePixelRatio);
-  // DOM追加
-  document.body.appendChild(renderer.domElement);
+//シーン
+const scene = new THREE.Scene();
 
-  // テクスチャーを追加してみよう
-  let textures = new THREE.TextureLoader().load('/textures/earth.jpg');
+//カメラ
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  100
+);
+camera.position.set(1, 1, 2);
 
-  // ジオメトリを作成
-  let ballGeometry = new THREE.SphereGeometry(100, 64, 32) // 半径、ポリゴンの数（大きくするとより球体に近づく）
+//レンダラー
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
 
-  // マテリアルを作成
-  let ballMaterial = new THREE.MeshPhysicalMaterial({map: textures});
+//ジオメトリを作ってみよう。
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
-  // メッシュ化してみよう
-  let ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
+//マテリアル
+const material = new THREE.MeshBasicMaterial({
+  color: "red",
+});
 
-  scene.add(ballMesh);
+//メッシュ化
+const box = new THREE.Mesh(boxGeometry, material);
+scene.add(box);
 
-  // 平行光源を追加してみよう
-  let directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-  directionalLight.position.set(1, 1, 1);
-  scene.add(directionalLight);
+//ライト
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+scene.add(ambientLight);
 
-  // ポイント光源を追加してみよう
-  pointLight = new THREE.PointLight(0xffffff, 1);
-  pointLight.position.set(-200, -200, -200);
-  scene.add(pointLight);
+//マウス操作
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
-  // ポイント光源がどこにあるのかを特定する
-  let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
-  scene.add(pointLightHelper);
+window.addEventListener("resize", onWindowResize);
 
-  // マウス操作ができるようにする
-  controls = new OrbitControls(camera, renderer.domElement);
-
-  window.addEventListener('resize', onWindowRisize);
-
-  animate();
-}
-
-// ブラウザのリサイズに対応させよう
-function onWindowRisize() {
-  // レンダラーのサイズを随時更新
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  // カメラのアスペクト比を正す
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-}
-
-
-// let rot = 0;
+const clock = new THREE.Clock();
 
 function animate() {
-  // ポイント光源を球の周りを巡回させよう
-  pointLight.position.set(
-    200 * Math.sin(Date.now() / 500),
-    200 * Math.sin(Date.now() / 1000),
-    200 * Math.cos(Date.now() / 500),
-  );
+  const elapsedTime = clock.getElapsedTime();
 
-  // カメラを回転させてみよう
-  // rot += 0.5;
-  // let radian = rot * (Math.PI / 180); //ラジアンに変換
-  // camera.position.x = Math.sin(radian) * 500;
-  // camera.position.z = Math.cos(radian) * 500;
-  // camera.lookAt(ballMesh.position);
+  controls.update();
 
-  // レンダリングしてみよう
+  //レンダリング
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
 
+//ブラウザのリサイズに対応
+function onWindowResize() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+}
 
-
-
+animate();
