@@ -87,6 +87,12 @@ const pointLightHelper = new THREE.PointLightHelper(
 );
 scene.add(pointLightHelper);
 
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper);
+window.requestAnimationFrame(() => {
+  spotLightHelper.update();
+})
+
 //マテリアル
 const material = new THREE.MeshStandardMaterial();
 material.roughness = 0.3;
