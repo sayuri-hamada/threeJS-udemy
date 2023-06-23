@@ -28,9 +28,31 @@ const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 16);
 const planeGeometry = new THREE.PlaneGeometry(10,10,1);
 const torusGeometry = new THREE.TorusGeometry(0.5,0.2,15,100,Math.PI * 2);
 
+//バッファジオメトリー
+const bufferGeometry = new THREE.BufferGeometry();
+
+const positionArray = new Float32Array(9); //型付配列（小数点の情報）9つの情報を入れる
+
+positionArray[0] = 0;
+positionArray[1] = 0;
+positionArray[2] = 0;
+
+positionArray[3] = 0;
+positionArray[4] = 1;
+positionArray[5] = 0;
+
+positionArray[6] = 1;
+positionArray[7] = 0;
+positionArray[8] = 0;
+
+const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
+
+bufferGeometry.setAttribute('position', positionAttribute);
+
+
 //マテリアル
-const material = new THREE.MeshNormalMaterial({
-  // wireframe: true,
+const material = new THREE.MeshBasicMaterial({
+  wireframe: true,
 });
 
 // メッシュ化
@@ -39,13 +61,17 @@ const sphere = new THREE.Mesh(sphereGeometry, material);
 const plane = new THREE.Mesh(planeGeometry, material); //地面をひくときによく使う
 const torus = new THREE.Mesh(torusGeometry, material);
 
-scene.add(box, sphere, plane, torus);
+const buffer = new THREE.Mesh(bufferGeometry, material)
 
 sphere.position.x = 1.5;
 plane.rotation.x = -Math.PI * 0.5;
 plane.position.y = -0.5;
 torus.position.x = -1.5;
 torus.position.y = 0.15;
+
+// scene.add(box, sphere, plane, torus);
+scene.add(buffer);
+
 
 //ライト
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
