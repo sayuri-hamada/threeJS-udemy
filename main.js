@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 
-let scene, camera, renderer, pointLight, controls;
+let scene, camera, renderer, pointLight, controls, sphere, plane, octahedron;
 
 window.addEventListener("load", init);
 
@@ -30,6 +30,25 @@ function init() {
   /**
    * マテリアルセクション
    */
+
+  // ジオメトリー
+  const sphereGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+  const planeGeometry = new THREE.PlaneGeometry(1, 1);
+  const octahedronGeomtry = new THREE.OctahedronGeometry(0.5);
+
+  // マテリアル
+  const material = new THREE.MeshBasicMaterial();
+
+  // メッシュ化
+  sphere = new THREE.Mesh(sphereGeometry, material);
+  plane = new THREE.Mesh(planeGeometry, material);
+  octahedron = new THREE.Mesh(octahedronGeomtry, material);
+
+  sphere.position.x = -1.5;
+  octahedron.position.x = 1.5;
+
+  scene.add(sphere, plane, octahedron);
+
 
   //マウス操作
   const controls = new OrbitControls(camera, renderer.domElement);
