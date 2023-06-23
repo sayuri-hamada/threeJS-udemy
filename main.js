@@ -32,15 +32,15 @@ scene.add(camera);
 
 //ライト
 // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-// const ambientLight = new THREE.AmbientLight(); //全体を均一に照らす　光のバウンシングを表現する
-// ambientLight.color = new THREE.Color(0xffffff);
-// ambientLight.intensity = 0.5;
-// scene.add(ambientLight);
+const ambientLight = new THREE.AmbientLight(); //全体を均一に照らす　光のバウンシングを表現する
+ambientLight.color = new THREE.Color(0xffffff);
+ambientLight.intensity = 0.5;
+scene.add(ambientLight);
 // gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
 
-// const directionalLight = new THREE.DirectionalLight(0x0fffff, 1);
-// directionalLight.position.set(1, 0.55, 1);
-// scene.add(directionalLight);
+const directionalLight = new THREE.DirectionalLight(0x0fffff, 1);
+directionalLight.position.set(1, 0.55, 1);
+scene.add(directionalLight);
 // gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001);
 // gui.add(directionalLight.position, 'y').min(-5).max(5).step(0.001);
 // gui.add(directionalLight.position, 'z').min(-5).max(5).step(0.001);
@@ -53,13 +53,20 @@ scene.add(camera);
 
 const pointLight = new THREE.PointLight(0xff4000, 0.7, 10, 2);
 pointLight.position.set(-1, 0, 1.5);
-scene.add(pointLight);
+// scene.add(pointLight);
 
 // RectAreaLightはMeshStandardMaterialかMeshFisicalMaterialの場合のみ使用可能
 const rectAreaLight = new THREE.RectAreaLight(0x4eff00, 1, 3, 4);
 rectAreaLight.position.set(1.5, 0, 1.5);
 rectAreaLight.lookAt(0, 0, 0);
-scene.add(rectAreaLight);
+// scene.add(rectAreaLight);
+
+const spotLight = new THREE.SpotLight(0xffffff, 0.5, 6, Math.PI * 0.1, 0.1, 0.1);
+spotLight.position.set(0, 2, 3);
+scene.add(spotLight);
+
+spotLight.target.position.set(0, 2, 3);
+scene.add(spotLight.target);
 
 //マテリアル
 const material = new THREE.MeshStandardMaterial();
