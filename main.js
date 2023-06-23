@@ -47,10 +47,13 @@ scene.add(camera);
 // const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 1);
 // scene.add(directionalLightHelper);
 
-const hemiSphreLight = new THREE.HemisphereLight(0x0ffff0, 0xffff00, 1); //上下の色を決めてグラデーションのような光をあtることができる　影を追加することはできない
-scene.add(hemiSphreLight);
-hemiSphreLight.position.set(1, 0.55, 0);
+// const hemiSphreLight = new THREE.HemisphereLight(0x0ffff0, 0xffff00, 1); //上下の色を決めてグラデーションのような光をあtることができる　影を追加することはできない
+// scene.add(hemiSphreLight);
+// hemiSphreLight.position.set(1, 0.55, 0);
 
+const pointLight = new THREE.PointLight(0xff4000, 0.7, 10, 2);
+pointLight.position.set(-1, 0, 1.5);
+scene.add(pointLight);
 
 //マテリアル
 const material = new THREE.MeshStandardMaterial();
