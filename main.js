@@ -52,6 +52,8 @@ gui.add(box.rotation, 'x').min(-3).max(3).step(0.01).name('rotationX');
 gui.add(box, 'visible');
 gui.add(material, 'wireframe');
 
+gui.addColor(material, "color")
+
 //ライト
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
 scene.add(ambientLight);
