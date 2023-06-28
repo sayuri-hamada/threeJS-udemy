@@ -2,6 +2,13 @@ import './style.css'
 
 import * as THREE from 'three';
 
+let cusorX = 0;
+let cusorY = 0;
+window.addEventListener('mousemove', (event) => {
+  cusorX = event.clientX / sizes.width - 0.5;
+  cusorY = event.clientY / sizes.width - 0.5;
+})
+
 
 //サイズ
 const sizes = {
@@ -35,6 +42,9 @@ document.body.appendChild(renderer.domElement);
 
 //アニメーション
 const animate = () => {
+  // カメラの制御
+  camera.position.x = cusorX * 3;
+  camera.position.y = cusorY * 3;
   //レンダリング
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
