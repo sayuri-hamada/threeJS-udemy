@@ -42,7 +42,8 @@ renderer.setSize(sizes.width, sizes.height);
 document.body.appendChild(renderer.domElement);
 
 // カメラ制御
-new OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
 //アニメーション
 const animate = () => {
@@ -53,6 +54,8 @@ const animate = () => {
   // camera.position.z = Math.cos(Math.PI * 2 + cusorX) * 3;
   // camera.position.y = cusorY * 5;
   // camera.lookAt(mesh.position);
+
+  controls.update();
   //レンダリング
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
