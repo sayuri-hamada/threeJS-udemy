@@ -2,6 +2,8 @@ import './style.css'
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
+
 
 import GUI from 'lil-gui';
 
@@ -92,6 +94,11 @@ scene.add(spotLightHelper);
 window.requestAnimationFrame(() => {
   spotLightHelper.update();
 })
+
+const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight);
+scene.add(rectAreaLightHelper);
+
+
 
 //マテリアル
 const material = new THREE.MeshStandardMaterial();
