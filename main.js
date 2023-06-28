@@ -16,6 +16,8 @@ function init() {
   // シーン
   scene = new THREE.Scene();
   // カメラ（レクチャー部分）
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+  camera.position.z = +350;
 
   // レンダラー
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
