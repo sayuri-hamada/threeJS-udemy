@@ -16,8 +16,12 @@ function init() {
   // シーン
   scene = new THREE.Scene();
   // カメラ（レクチャー部分）
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
-  camera.position.z = +350;
+  // camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+  // camera.position.z = +350;
+  const aspectRatio = width / height;
+  console.log(aspectRatio)
+  camera = new THREE.OrthographicCamera(500 * aspectRatio, -500 * aspectRatio, -500, 500, 0.1, 3000);
+  camera.position.z = 2000;
 
   // レンダラー
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
