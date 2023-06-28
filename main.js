@@ -3,101 +3,60 @@ import './style.css'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let scene, camera, renderer, pointLight, controls;
 
-window.addEventListener('load', init);
+let scene, camera, renderer;
+let sphere;
 
+window.addEventListener("DOMContentLoaded", init);
 
 function init() {
-  // シーンを追加
+  const width = innerWidth;
+  const height = innerHeight;
+
+  // シーン
   scene = new THREE.Scene();
+  // カメラ（レクチャー部分）
 
-  // カメラを追加
-  camera = new THREE.PerspectiveCamera(
-    50, //視野角
-    window.innerWidth / window.innerHeight, //アスペクト比
-    0.1, //開始距離
-    1000 //終了距離
-  );
-  camera.position.set(0, 0, 500);
-
-  // レンダラーを追加
-  renderer = new THREE.WebGLRenderer({alpha: true});
-  // レンダラーのサイズを調整
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  // 解像度を調整
+  // レンダラー
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(window.devicePixelRatio);
-  // DOM追加
+  renderer.setSize(width, height);
   document.body.appendChild(renderer.domElement);
 
-  // テクスチャーを追加してみよう
-  let textures = new THREE.TextureLoader().load('/textures/earth.jpg');
+  // 座標軸を表示
+  const axes = new THREE.AxesHelper(1500);
+  axes.position.x = 0;
+  scene.add(axes); //x 軸は赤, y 軸は緑, z 軸は青
 
-  // ジオメトリを作成
-  let ballGeometry = new THREE.SphereGeometry(100, 64, 32) // 半径、ポリゴンの数（大きくするとより球体に近づく）
+  // ボックスを作成
+  const geometry = new THREE.SphereGeometry(200, 64, 32);
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xc7ebb,
+    wireframe: true,
+  });
+  sphere = new THREE.Mesh(geometry, material);
+  scene.add(sphere);
 
-  // マテリアルを作成
-  let ballMaterial = new THREE.MeshPhysicalMaterial({map: textures});
+  //マウス操作
+  new OrbitControls(camera, renderer.domElement);
 
-  // メッシュ化してみよう
-  let ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
-
-  scene.add(ballMesh);
-
-  // 平行光源を追加してみよう
-  let directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-  directionalLight.position.set(1, 1, 1);
-  scene.add(directionalLight);
-
-  // ポイント光源を追加してみよう
-  pointLight = new THREE.PointLight(0xffffff, 1);
-  pointLight.position.set(-200, -200, -200);
-  scene.add(pointLight);
-
-  // ポイント光源がどこにあるのかを特定する
-  let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
-  scene.add(pointLightHelper);
-
-  // マウス操作ができるようにする
-  controls = new OrbitControls(camera, renderer.domElement);
-
-  window.addEventListener('resize', onWindowRisize);
-
+  window.addEventListener("resize", onWindowResize);
   animate();
 }
 
-// ブラウザのリサイズに対応させよう
-function onWindowRisize() {
-  // レンダラーのサイズを随時更新
+function animate() {
+  requestAnimationFrame(animate);
+
+  sphere.rotation.x += 0.01;
+  sphere.rotation.y += 0.01;
+
+  // レンダリング
+  renderer.render(scene, camera);
+}
+
+function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
-  // カメラのアスペクト比を正す
+
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 }
-
-
-// let rot = 0;
-
-function animate() {
-  // ポイント光源を球の周りを巡回させよう
-  pointLight.position.set(
-    200 * Math.sin(Date.now() / 500),
-    200 * Math.sin(Date.now() / 1000),
-    200 * Math.cos(Date.now() / 500),
-  );
-
-  // カメラを回転させてみよう
-  // rot += 0.5;
-  // let radian = rot * (Math.PI / 180); //ラジアンに変換
-  // camera.position.x = Math.sin(radian) * 500;
-  // camera.position.z = Math.cos(radian) * 500;
-  // camera.lookAt(ballMesh.position);
-
-  // レンダリングしてみよう
-  renderer.render(scene, camera);
-  requestAnimationFrame(animate);
-}
-
-
-
-
