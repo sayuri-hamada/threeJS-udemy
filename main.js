@@ -41,7 +41,16 @@ document.body.appendChild(renderer.domElement);
  * パーティクルを作ってみよう
  */
 // ジオメトリ
-const particleGeometry = new THREE.SphereGeometry(1, 16, 32);
+const particleGeometry = new THREE.BufferGeometry();
+const count = 5000;
+
+const positionArray = new Float32Array(count * 3);
+
+for (let i = 0; i < count * 3; i++) {
+  positionArray[i] = Math.random() ;
+}
+
+particleGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
 
 // マテリアル
 const pointMaterial = new THREE.PointsMaterial({
