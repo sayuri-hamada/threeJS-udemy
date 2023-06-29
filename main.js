@@ -37,22 +37,25 @@ document.body.appendChild(renderer.domElement);
  * テクスチャ設定
  **/
 const textureLoader = new THREE.TextureLoader();
-const particlesTexture = textureLoader.load('/textures/particles/1.png')
+const particlesTexture = textureLoader.load('/textures/particles/9.png')
 
 /**
  * パーティクルを作ってみよう
  */
 // ジオメトリ
 const particleGeometry = new THREE.BufferGeometry();
-const count = 5000;
+const count = 10000;
 
 const positionArray = new Float32Array(count * 3);
+const colotArray = new Float32Array(count * 3);
 
 for (let i = 0; i < count * 3; i++) {
   positionArray[i] = (Math.random() - 0.5) * 10;
+  colotArray[i] = Math.random();
 }
 
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+particleGeometry.setAttribute('color', new THREE.BufferAttribute(colotArray, 3));
 
 // 球を作成してみる
 const cube = new THREE.Mesh(
@@ -69,13 +72,16 @@ const pointMaterial = new THREE.PointsMaterial({
   // alphaTest: 0.001,
   // depthTest: false,
   depthWrite: false,
+  vertexColors: true,
+  blending: THREE.AdditiveBlending
 })
 // pointMaterial.map = particlesTexture;
+// pointMaterial.color.set('green');
 
 // メッシュ化
 const particles = new THREE.Points(particleGeometry, pointMaterial);
 
-scene.add(particles, cube);
+scene.add(particles);
 
 //マウス操作
 const controls = new OrbitControls(camera, renderer.domElement);
