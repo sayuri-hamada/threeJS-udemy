@@ -40,6 +40,19 @@ document.body.appendChild(renderer.domElement);
 /**
  * パーティクルを作ってみよう
  */
+// ジオメトリ
+const particleGeometry = new THREE.SphereGeometry(1, 16, 32);
+
+// マテリアル
+const pointMaterial = new THREE.PointsMaterial({
+  size: 0.02,
+  sizeAttenuation: true
+})
+
+// メッシュ化
+const particles = new THREE.Points(particleGeometry, pointMaterial);
+
+scene.add(particles);
 
 //マウス操作
 const controls = new OrbitControls(camera, renderer.domElement);
