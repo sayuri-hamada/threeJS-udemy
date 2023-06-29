@@ -99,8 +99,11 @@ function animate() {
   for (let i = 0; i < count; i++) {
     const i3 = i * 3;
 
-    particleGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime)
+    const x = particleGeometry.attributes.position.array[i3 + 0];
+
+    particleGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
   }
+  particleGeometry.attributes.position.needsUpdate = true;
 
   //レンダリング
   renderer.render(scene, camera);
