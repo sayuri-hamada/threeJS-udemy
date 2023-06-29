@@ -35,7 +35,9 @@ document.body.appendChild(renderer.domElement);
 
 /**
  * テクスチャ設定
- * /
+ **/
+const textureLoader = new THREE.TextureLoader();
+const particlesTexture = textureLoader.load('/textures/particles/1.png')
 
 /**
  * パーティクルを作ってみよう
@@ -54,9 +56,13 @@ particleGeometry.setAttribute('position', new THREE.BufferAttribute(positionArra
 
 // マテリアル
 const pointMaterial = new THREE.PointsMaterial({
-  size: 0.02,
-  sizeAttenuation: true
+  size: 0.15,
+  sizeAttenuation: true,
+  transparent: true,
+  alphaMap: particlesTexture,
+  alphaTest: 0.001
 })
+// pointMaterial.map = particlesTexture;
 
 // メッシュ化
 const particles = new THREE.Points(particleGeometry, pointMaterial);
