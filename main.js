@@ -54,20 +54,28 @@ for (let i = 0; i < count * 3; i++) {
 
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
 
+// 球を作成してみる
+const cube = new THREE.Mesh(
+  new THREE.SphereGeometry(),
+  new THREE.MeshNormalMaterial()
+);
+
 // マテリアル
 const pointMaterial = new THREE.PointsMaterial({
   size: 0.15,
   sizeAttenuation: true,
   transparent: true,
   alphaMap: particlesTexture,
-  alphaTest: 0.001
+  // alphaTest: 0.001,
+  // depthTest: false,
+  depthWrite: false,
 })
 // pointMaterial.map = particlesTexture;
 
 // メッシュ化
 const particles = new THREE.Points(particleGeometry, pointMaterial);
 
-scene.add(particles);
+scene.add(particles, cube);
 
 //マウス操作
 const controls = new OrbitControls(camera, renderer.domElement);
